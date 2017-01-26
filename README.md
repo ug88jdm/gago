@@ -153,7 +153,6 @@ func main() {
 - [Grid TSP](examples/tsp_grid/main.go)
 - [One Max problem](examples/one_max/main.go)
 - [String matching](examples/string_matching/main.go)
-- [POST statistics](examples/post_statistics/)
 
 ## Background
 
@@ -237,7 +236,6 @@ type GA struct {
     Migrator     Migrator
     MigFrequency int // Frequency at which migrations occur
     Logger       *log.Logger
-    PostURL      string
 
     // Fields that are generated at runtime
     Populations Populations
@@ -255,7 +253,6 @@ You have to fill in the first 5 attributes, the rest are filled by called the `G
 - `Model` determines how to use the genetic operators you chose in order to produce better solutions, in other words it's a recipe. A dedicated section is available in the [model section](#models).
 - `Migrator` and `MigFrequency` should be provided if you want to exchange individuals between populations in case of a multi-population GA. If not the populations will be run indepently. Again this is an advanced concept in the genetic algorithms field that you should't deal with at first.
 - `Logger` is optional, you can read more about in the [logging section](#logging-population-statistics).
-- `PostURL` is optional, you can read more about in the [POSTing section](#posting-population-statistics).
 
 Essentially only `MakeGenome`, `Topology` and `Model` are required to initialize and run a GA.
 
@@ -348,7 +345,7 @@ Some prefilled GA instances are available to get started as fast as possible. Th
 
 ### Logging population statistics
 
-It's possible to log statistics for each population at runtime. To do you simply have to provide the `GA` struct a `Logger` from the Go standard library. This is quite convenient because it allows you to decide where to write the log ouput, whether it be in a file or directly in the standard output.
+It's possible to log statistics for each population at every generation. To do so you simply have to provide the `GA` struct a `Logger` from the Go standard library. This is quite convenient because it allows you to decide where to write the log ouput, whether it be in a file or directly in the standard output.
 
 ```go
 ga.Logger = log.New(os.Stdout, "", log.Ldate|log.Ltime)
@@ -361,16 +358,6 @@ If a logger is provided, each row in the log output will include
 - the population maximum fitness,
 - the population average fitness,
 - the population's fitness standard deviation.
-
-### POSTing population statistics
-
-It's also possible to POST population statistics to a specified URL. This makes it possible to plot the performance of the genetic algorithm in real-time. Check out [this example](examples/post_statistics) where the data is sent to a Flask server before updating a live Bokeh plot.
-
-```go
-ga.PostURL = "http://localhost:8000/"
-```
-
-The POST request's body will include the same statistics as the ones described in the logging section.
 
 
 ## A note on parallelism

@@ -4,8 +4,10 @@ There are many genetic operators yet to be implemented. Feel free to send pull r
 
 ## Ideas
 
+- https://www.wikiwand.com/en/List_of_genetic_algorithm_applications
 - Benchmark against other libraries
 - Add more example usage
+- Implement binary search for the roulette wheel selection
 - Add a way to compare individuals based on their genome to improve speciation
 - Make it easier to test models. Also make sure they work as expected.
 - Implement operators described in http://www.ppgia.pucpr.br/~alceu/mestrado/aula3/IJBB-41.pdf
