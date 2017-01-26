@@ -17,6 +17,17 @@ func MutNormalFloat64(genome []float64, rate float64, rng *rand.Rand) {
 	}
 }
 
+// MutNormalFloat64 modifies a float64 gene if a coin toss is under a defined
+// mutation rate. The new gene value is a random value sampled from within the
+// minimum and maximum gene boundaries, this is done for each gene.
+func MutJaggedFloat64(genome,lower,upper []float64, rate float64, rng *rand.Rand) {
+	for i:= range genome {
+		if rng.Float64() < rate {
+			genome[i] = lower[i]+rng.Float64()*(upper[i]-lower[i])
+		}
+	}
+}
+
 // MutUniformString picks a gene at random and replaces it with a random from a
 // provided corpus. It repeats this n times.
 func MutUniformString(genome []string, corpus []string, n int, rng *rand.Rand) {

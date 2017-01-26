@@ -1,6 +1,8 @@
 package gago
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestMutNormalFloat64All(t *testing.T) {
 	var (
@@ -25,6 +27,43 @@ func TestMutNormalFloat64None(t *testing.T) {
 	)
 	copy(mutated, genome)
 	MutNormalFloat64(mutated, 0, rng)
+	for i, v := range mutated {
+		if v != genome[i] {
+			t.Error("Gene has been modified but shouldn't have")
+		}
+	}
+}
+
+func TestMutJaggedFloat64All(t *testing.T) {
+	var (
+		rng     = makeRandomNumberGenerator()
+		genome  = []float64{1, 2, 3}
+		lower   = []float64{0, 2, 1}
+		upper   = []float64{5, 4, 3}
+		mutated = make([]float64, len(genome))
+	)
+	copy(mutated, genome)
+	MutJaggedFloat64(mutated, lower, upper, 1, rng)
+	for i, v := range mutated {
+		if v == genome[i] {
+			t.Error("Gene should have been modified but hasn't")
+		}
+		if v < lower[i] || v > upper[i] {
+			t.Error("Gene was mutated ouside of it's bounds")
+		}
+	}
+}
+
+func TestMutJaggedFloat64None(t *testing.T) {
+	var (
+		rng     = makeRandomNumberGenerator()
+		genome  = []float64{1, 2, 3}
+		lower   = []float64{0, 2, 1}
+		upper   = []float64{5, 4, 3}
+		mutated = make([]float64, len(genome))
+	)
+	copy(mutated, genome)
+	MutJaggedFloat64(mutated, lower, upper, 0, rng)
 	for i, v := range mutated {
 		if v != genome[i] {
 			t.Error("Gene has been modified but shouldn't have")
